@@ -1,0 +1,11 @@
+{
+    "name": "groupe3/easy-expense-api",
+    "type": "API",
+    "authors": [
+        {
+            "name": "groupe",
+            "email": "groupe3@gmail.com"
+        }
+    ],
+    "require": {}
+}
