@@ -39,7 +39,7 @@ class UtilisateurManager extends Manager
         $SQL = "SELECT * FROM Utilisateur";
 
         $req = $this->db->query($SQL);
-        $res = $req->fetchAll();
+        $res = $req->fetchAll(\PDO::FETCH_OBJ);
         return json_encode($res, JSON_UNESCAPED_UNICODE);
     }
   
