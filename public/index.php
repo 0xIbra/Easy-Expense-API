@@ -15,8 +15,14 @@ $app = new \Slim\App;
 
 require '../src/routes/routes.php';
 
+/**
+ * Route principale
+ */
 $app->get("/", function(Request $request, Response $response){
-    $response->getBody()->write("API Easy Expense");
+    $html = file_get_contents("../src/views/base.html");
+    $html = str_replace('{{TITRE}}', "Easy Expense - REST API", $html);
+    $html = str_replace("{{STYLEPATH}}", 'css/main.css', $html);
+    $response->getBody()->write($html);
     return $response;
 });
 

@@ -6,12 +6,62 @@
  * Time: 20:11
  */
 
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
-// Affichage de tous les utilisateurs
 
-$app->get("/api/utilisateurs", function(\Psr\Http\Message\RequestInterface $request, \Psr\Http\Message\ResponseInterface $response){
+// ---------HTTP GET---------
+
+
+/**
+ * Affichage de tous les utilisateurs
+ */
+$app->get("/api/utilisateurs", function(Request $request, Response $response){
     $uManager = new \Src\Model\UtilisateurManager();
     $json = $uManager->getCustomers();
-    $request->getHeader("content-type:application/json");
     $response->getBody()->write($json);
 });
+
+
+/**
+ * Affichage de tous les notes de frais
+ */
+$app->get("/api/notesdefrais", function (Request $request, Response $response){
+    $nManagaer = new \Src\Model\NoteDeFraisManager();
+    $json = $nManagaer->getNotesFrais();
+    $response->getBody()->write($json);
+    return $response;
+});
+
+
+/**
+ * Authentification simple
+ * @return type Response
+ */
+$app->get("/api/utilisateur/auth/{email}/{password}", function (Request $request, Response $response){
+    $mail = $request->getAttribute("email");
+    $pass = $request->getAttribute("password");
+
+    $uManager = new \Src\Model\UtilisateurManager();
+    $json = $uManager->Authentification($mail, $pass);
+    $response->getBody()->write($json);
+    return $response;
+});
+
+// ---------HTTP GET---------
+
+// ---------HTTP POST---------
+
+/**
+ * Ajout d'une note de frais
+ */
+$app->post("/api/notesdefrais/add", function(Request $request, Response $response){
+    $libelle = $request->getParam('libelleNote');
+    $idU = $request->getParam('idUtilisateur');
+
+    $nManager = new \Src\Model\NoteDeFraisManager();
+    $test = $nManager->post($libelle, $idU);
+    echo $test;
+});
+
+// ---------HTTP POST---------

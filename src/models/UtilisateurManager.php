@@ -8,16 +8,25 @@
 
 namespace Src\Model;
 
-class UtilisateurManager extends Manager
-{
+class UtilisateurManager extends Manager{
+
+    /**
+     * UtilisateurManager constructor.
+     */
     public function __construct()
     {
         parent::__construct();
         $this->table = "Utilisateur";
         $this->object = 'Utilisateur $utilisateur';
     }
-  
-  
+
+
+    /**
+     * @param $token
+     * @param $email
+     * @param $pass
+     * @return string
+     */
     function AuthToken($token, $email, $pass){
         $SQL = "SELECT idUtilisateur, AuthToken FROM Utilisateur WHERE AuthToken = :token AND mailUtilisateur = :mail AND mdpUtilisateur = :pass";
       
@@ -35,6 +44,28 @@ class UtilisateurManager extends Manager
     }
 
 
+    /**
+     * @param $mail
+     * @param $pass
+     * @return string
+     */
+    function Authentification($mail, $pass){
+        $SQL = "SELECT * FROM Utilisateur WHERE mailUtilisateur = :mail AND mdpUtilisateur = :pass";
+
+        $req = $this->db->prepare($SQL);
+        $req->bindValue('mail', $mail, \PDO::PARAM_STR);
+        $req->bindValue('pass', $pass, \PDO::PARAM_STR);
+        $req->execute();
+
+        $user = $req->fetch(\PDO::FETCH_OBJ);
+
+        return json_encode($user, JSON_UNESCAPED_UNICODE);
+    }
+
+
+    /**
+     * @return string
+     */
     public function getCustomers(){
         $SQL = "SELECT * FROM Utilisateur";
 
@@ -42,8 +73,13 @@ class UtilisateurManager extends Manager
         $res = $req->fetchAll(\PDO::FETCH_OBJ);
         return json_encode($res, JSON_UNESCAPED_UNICODE);
     }
-  
-  
+
+
+    /**
+     * @param $email
+     * @param $password
+     * @return string
+     */
     function HttpConnRequest($email, $password){
         
         $SQL = "SELECT * FROM Utilisateur WHERE mailUtilisateur = :email AND mdpUtilisateur = :mdp AND typeCompte ='Commercial' ";
@@ -62,6 +98,11 @@ class UtilisateurManager extends Manager
         return json_encode($user, JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * @param $token
+     * @param $id
+     * @return string
+     */
     public function getUserSession($token, $id){
     
         $SQL = "SELECT * FROM Utilisateur WHERE AuthToken = :token AND idUtilisateur = :id";
@@ -77,14 +118,21 @@ class UtilisateurManager extends Manager
         $user->nom = $result['nomUtilisateur'];
         $user->prenom = $result['prenomUtilisateur'];
         return json_encode($user, JSON_UNESCAPED_UNICODE);
-}
+    }
 
+    /**
+     * @param $id
+     * @return mixed|Utilisateur
+     */
     public function get($id)
     {
         $result = parent::read($id);
         return new Utilisateur($result);
     }
 
+    /**
+     * @return array
+     */
     public function getAll()
     {
         $result = parent:: getAll();
@@ -95,17 +143,26 @@ class UtilisateurManager extends Manager
         return $collUtilisateurs;
     }
 
+    /**
+     * @param $object
+     */
     public function delete($object)
     {
         parent:: delete($this->$object);
 
     }
 
+    /**
+     * @param Utilisateur $utilisateur
+     */
     public function post(Utilisateur &$utilisateur)
     {
 
     }
 
+    /**
+     * @param Utilisateur $utilisateur
+     */
     public function put(Utilisateur $utilisateur)
     {
 
