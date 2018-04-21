@@ -160,13 +160,35 @@ class UtilisateurManager extends Manager{
 
     }
 
+
     /**
      * @param Utilisateur $utilisateur
+     * @return bool
      */
-    public function put(Utilisateur $utilisateur)
-    {
+    public function put(Utilisateur $utilisateur){
+        $SQL = "UPDATE Utilisateur SET mailUtilisateur=:mail, mdpUtilisateur=:pass, adresseUtilisateur=:adresse,  codePostalUtilisateur=:cp, villeUtilisateur=:ville, telUtilisateur=:tel, 
+                nomUtilisateur=:nom, prenomUtilisateur=:prenom, AuthToken=:token WHERE idUtilisateur = :idU";
 
+        $token = base64_encode($utilisateur->getMailUtilisateur().$utilisateur->getMdpUtilisateur());
 
+        $req = $this->db->prepare($SQL);
+        $req->bindValue('mail', $utilisateur->getMailUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('pass', $utilisateur->getMdpUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('adresse', $utilisateur->getAdresseUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('cp', $utilisateur->getCodePostalUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('ville', $utilisateur->getVilleUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('tel', $utilisateur->getTelUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('nom', $utilisateur->getNomUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('prenom', $utilisateur->getPrenomUtilisateur(), \PDO::PARAM_STR);
+        $req->bindValue('token', $token, \PDO::PARAM_STR);
+        $req->bindValue('idU', $utilisateur->getIdUtilisateur(), \PDO::PARAM_INT);
+        $res = $req->execute();
+
+        if ($res){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

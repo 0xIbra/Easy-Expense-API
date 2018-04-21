@@ -204,6 +204,97 @@ class Utilisateur extends Entity
         $this->collCommerciaux = $collCommerciaux;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIdUtilisateur()
+    {
+        return $this->idUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMailUtilisateur()
+    {
+        return $this->mailUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMdpUtilisateur()
+    {
+        return $this->mdpUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdresseUtilisateur()
+    {
+        return $this->adresseUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodePostalUtilisateur()
+    {
+        return $this->codePostalUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVilleUtilisateur()
+    {
+        return $this->villeUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelUtilisateur()
+    {
+        return $this->telUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeCompte()
+    {
+        return $this->typeCompte;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNomUtilisateur()
+    {
+        return $this->nomUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrenomUtilisateur()
+    {
+        return $this->prenomUtilisateur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdEntreprise()
+    {
+        return $this->idEntreprise;
+    }
+
+
+
+
 
 
 

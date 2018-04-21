@@ -78,7 +78,20 @@ $app->post("/api/notesdefrais/add", function(Request $request, Response $respons
 
 // ---------HTTP PUT------------
 
+/**
+ * Permet de modifier un Utilisateur.
+ * Cette route attend un Objet JSON et il le parse en Objet PHP.
+ */
+$app->put('/api/utilisateur/put', function(Request $request, Response $response){
+    $decodedJson = $request->getParsedBody();
+    $User = new \Src\Model\Utilisateur($decodedJson);
+    $uManager = new \Src\Model\UtilisateurManager();
+    $res = $uManager->put($User);
 
+    $obj = new stdClass();
+    $obj->update = $res;
+    return $response->getBody()->write(json_encode($obj));
+});
 
 
 // ---------HTTP PUT------------
