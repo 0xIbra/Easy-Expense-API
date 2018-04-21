@@ -50,18 +50,47 @@ $app->get("/api/utilisateur/auth/{email}/{password}", function (Request $request
 
 // ---------HTTP GET---------
 
+
+
+#-------------------------------
+
+
+
 // ---------HTTP POST---------
 
 /**
- * Ajout d'une note de frais
+ * Permet d'ajouter une note de frais et ensuite retourne la note de frais ajoutée avec tous ses champs en JSON
+ * @return type JSON
  */
 $app->post("/api/notesdefrais/add", function(Request $request, Response $response){
     $libelle = $request->getParam('libelleNote');
     $idU = $request->getParam('idUtilisateur');
 
     $nManager = new \Src\Model\NoteDeFraisManager();
-    $test = $nManager->post($libelle, $idU);
-    echo $test;
+    $json = $nManager->post($libelle, $idU);
+    $response->getBody()->write($json);
+    return $json;
 });
 
-// ---------HTTP POST---------
+// ---------HTTP POST-----------
+
+#-------------------------------
+
+// ---------HTTP PUT------------
+
+
+
+
+// ---------HTTP PUT------------
+
+
+#-------------------------------
+
+
+// ---------HTTP DELETE---------
+
+
+
+
+
+// ---------HTTP DELETE---------
