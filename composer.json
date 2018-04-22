@@ -1,13 +1,19 @@
 {
-    "name": "groupe3/easy-expense-api",
+    "name": "ibragim.abubakarov/easy-expense-api",
     "type": "API",
+    "require": {
+        "slim/slim": "^3.10"
+    },
     "authors": [
         {
-            "name": "groupe",
-            "email": "groupe3@gmail.com"
+            "name": "Ibragim Abubakarov",
+            "email": "ibrahim.chechen64@gmail.com"
         }
     ],
-    "require": {
-        "slim/slim": "^3.9"
+    "autoload": {
+        "psr-4": {
+            "Src\\Model\\" : "src/models/",
+            "Src\\Config\\" : "src/config"
+        }
     }
 }
