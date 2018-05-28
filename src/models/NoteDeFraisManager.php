@@ -8,6 +8,8 @@
 
 namespace Src\Model;
 
+use \PDO as PDO;
+
 class NoteDeFraisManager extends Manager{
 
     /**
@@ -49,39 +51,18 @@ class NoteDeFraisManager extends Manager{
      * @return string
      */
     function getNotesFraisForUser($id){
-        $SQL = "SELECT * FROM NoteDeFrais WHERE idUtilisateur = :id ORDER BY codeFrais DESC ";
+        $SQL = "SELECT * FROM NoteDeFrais WHERE NoteDeFrais.idUtilisateur = :id ORDER BY codeFrais DESC ";
         $req = $this->db->prepare($SQL);
         $req->bindValue('id', $id, PDO::PARAM_INT);
         $req->execute();
-        $result = $req->fetchAll(PDO::FETCH_ASSOC);
-        
-        $notes = [];
-        $idClient = null;
-        foreach($result as $value){
-                if($value['idClient'] == null){
-                  $idClient = 0;
-                }else{
-                  $idClient = $value['idClient'];
-                }
-        
-          $note = new StdClass();
-          $note->codeFrais = $value['codeFrais'];
-          $note->libelleNote = $value['libelleNote'];
-          $note->dateFrais = $value['dateFrais'];
-          $note->villeFrais = $value['villeFrais'];
-          $note->dateSoumission = $value['dateSoumission'];
-          $note->commentaireFrais = $value['commentaireFrais'];
-          $note->etat = $value['etat'];
-          $note->idUtilisateur = $value['idUtilisateur'];
-          $note->idClient = $idClient;
-        
-          $notes[] = $note;
-        
-            
+        $result = $req->fetchAll(\PDO::FETCH_OBJ);
+
+        foreach ($result as $value) {
+            if($value->idClient == null){
+                $value->idClient = 0;
+            }
         }
-          
-          
-        return json_encode($notes, JSON_UNESCAPED_UNICODE);       
+        return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
 
@@ -90,15 +71,14 @@ class NoteDeFraisManager extends Manager{
      * @param $idUtilisateur
      * @return string
      */
-    function post($libelle, $idUtilisateur){
+    function post(NoteDeFrais $note){
         $SQL = "INSERT INTO NoteDeFrais (libelleNote, dateFrais, dateSoumission, idUtilisateur) VALUES (:libelle, now(), now(), :idUtilisateur)";
         $req = $this->db->prepare($SQL);
         $values = [
-            'libelle' => $libelle,
-            'idUtilisateur' => $idUtilisateur
+            'libelle' => $note->getLibelleNote(),
+            'idUtilisateur' => $note->getIdUtilisateur()
             ];
         $req->execute($values);
-      
         $id = $this->db->lastInsertId();
         $note = $this->read($id);
         return $note;

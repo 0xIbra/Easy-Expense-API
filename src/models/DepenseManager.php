@@ -8,32 +8,30 @@
 
 namespace Src\Model;
 
+use \PDO as PDO;
+
 class DepenseManager extends Manager
 {
     public function __construct(){
         parent::__construct();
         $this->table = "Depense";
     }
-  
-    
+
+    /**
+     * @param $codeFrais
+     * @return string
+     */
     public function getDepensesForNote($codeFrais){
       $SQL = "SELECT * FROM ".$this->table.", Frais WHERE Depense.idDepense = Frais.idDepense AND Depense.codeFrais = :idFrais";
-      
       $req = $this->db->prepare($SQL);
       $req->bindValue('idFrais', $codeFrais, PDO::PARAM_INT);
       $req->execute();
-      
-      $resultFrais['Frais'] = $req->fetchAll(PDO::FETCH_ASSOC);
-      
+      $resultFrais['Frais'] = $req->fetchAll(PDO::FETCH_OBJ);
       $SQL = "SELECT * FROM ".$this->table.", Trajet WHERE Depense.idDepense = Trajet.idDepense AND Depense.codeFrais = :idFrais";
       $req = $this->db->prepare($SQL);
       $req->bindValue('idFrais', $codeFrais, PDO::PARAM_INT);
       $req->execute();
-      
-      $resultFrais['Trajet'] = $req->fetchAll(PDO::FETCH_ASSOC);
-      
-      
-      //$mergedResult = array_merge($resultFrais, $resultTrajet);
+      $resultFrais['Trajet'] = $req->fetchAll(PDO::FETCH_OBJ);
       
       return json_encode($resultFrais, JSON_UNESCAPED_UNICODE);
     }

@@ -33,6 +33,27 @@ $app->get("/api/notesdefrais", function (Request $request, Response $response){
     return $response;
 });
 
+/**
+ * Route pour chercher les notes de frais d'un utilisateur avec son id
+ */
+$app->get("/api/notesdefrais/get/{idU}", function(Request $request, Response $response){
+    $id = $request->getAttribute("idU");
+    $nManager = new \Src\Model\NoteDeFraisManager();
+    $json = $nManager->getNotesFraisForUser($id);
+    return $response->getBody()->write($json);
+});
+
+/**
+ * Route pour récupérer tous les depense d'une note de frais
+ */
+$app->get("/api/depenses/get/{codeFrais}", function (Request $request, Response $response){
+   $codeFrais = $request->getAttribute("codeFrais");
+   $dManager = new \Src\Model\DepenseManager();
+   $json = $dManager->getDepensesForNote($codeFrais);
+   $response->getBody()->write($json);
+   return $response;
+});
+
 
 /**
  * Authentification simple
@@ -63,13 +84,12 @@ $app->get("/api/utilisateur/auth/{email}/{password}", function (Request $request
  * @return type JSON
  */
 $app->post("/api/notesdefrais/add", function(Request $request, Response $response){
-    $libelle = $request->getParam('libelleNote');
-    $idU = $request->getParam('idUtilisateur');
-
+    $data = $request->getParsedBody();
+    $noteF = new \Src\Model\NoteDeFrais($data);
     $nManager = new \Src\Model\NoteDeFraisManager();
-    $json = $nManager->post($libelle, $idU);
+    $json = $nManager->post($noteF);
     $response->getBody()->write($json);
-    return $json;
+    return $response;
 });
 
 // ---------HTTP POST-----------

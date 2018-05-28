@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="85272250-9f0f-43c2-abda-c1b05e664c58" name="Easyname" url="http://e91099-ssh.services.easyname.eu">
+        <fileTransfer host="e91099-ssh.services.easyname.eu" port="22" rootFolder="/data/web/e91099/html/Easy-Expense-API/" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
