@@ -12,9 +12,9 @@ use \PDO;
 
 
 class Bdd {
-    private $dbhost = "mysql:host=e91099-mysql.services.easyname.eu;dbname=u143944db1;charset=utf8;";
-    private $dbuser = "u143944db1";
-    private $dbpass = "12345678*";
+    private $dbhost = "mysql:********************************;";
+    private $dbuser = "*********";
+    private $dbpass = "*********";
 
     public function connect(){
         $conn = new PDO($this->dbhost, $this->dbuser, $this->dbpass);
